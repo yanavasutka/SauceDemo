@@ -3,8 +3,10 @@ package tests;
 import io.github.bonigarcia.wdm.WebDriverManager;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.edge.EdgeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.firefox.FirefoxOptions;
 import org.testng.annotations.*;
 import pages.*;
 
@@ -27,14 +29,18 @@ public class BaseTest {
             PASSWORD = "secret_sauce";
 
     @Parameters({"browser"})
-    @BeforeMethod (description = "Opening the browser")
-    public void setup (@Optional("chrome") String browser) throws MalformedURLException {
-        if(browser.equalsIgnoreCase("chrome")) {
+    @BeforeMethod(description = "Opening the browser")
+    public void setup(@Optional("chrome") String browser) throws MalformedURLException {
+        if (browser.equalsIgnoreCase("chrome")) {
             WebDriverManager.chromedriver().setup();
-            driver = new ChromeDriver();
+            ChromeOptions options = new ChromeOptions();
+            options.addArguments("--headless");
+            driver = new ChromeDriver(options);
         } else if (browser.equalsIgnoreCase("firefox")) {
             WebDriverManager.firefoxdriver().setup();
-            driver = new FirefoxDriver();
+            FirefoxOptions options = new FirefoxOptions();
+            options.addArguments("--headless");
+            driver = new FirefoxDriver(options);
         }
 
         driver.manage().window().maximize();
@@ -52,6 +58,8 @@ public class BaseTest {
 
     @AfterMethod(alwaysRun = true, description = "Closing the browser")
     public void close() {
-        driver.quit();
+        if (driver != null) {
+            driver.quit();
+        }
     }
 }
