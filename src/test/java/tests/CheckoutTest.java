@@ -1,11 +1,8 @@
 package tests;
 
-import org.openqa.selenium.By;
 import org.testng.annotations.Test;
-import pages.ProductsPage;
 
 import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertNotEqualsDeep;
 
 public class CheckoutTest extends BaseTest {
 
@@ -23,9 +20,9 @@ public class CheckoutTest extends BaseTest {
         checkoutInformationPage.fillTheCheckoutFields("Yana", "Vasyutich", "220306");
         checkoutInformationPage.clickOnTheContinueButton();
         checkoutOverviewPage.open();
-        assertEquals(checkoutOverviewPage.getTheItemTotal(), "Item total: $39.98");
-        assertEquals(checkoutOverviewPage.getTheTax(), "Tax: $3.20");
-        assertEquals(checkoutOverviewPage.getTheFinalTotal(), "Total: $43.18");
+        assertEquals(checkoutOverviewPage.getTheItemTotal(), "Item total: $9.99");
+        assertEquals(checkoutOverviewPage.getTheTax(), "Tax: $0.80");
+        assertEquals(checkoutOverviewPage.getTheFinalTotal(), "Total: $10.79");
         checkoutOverviewPage.clickOnTheFinishButton();
         assertEquals(checkoutCompletePage.getTheThankYouMessage(), "THANK YOU FOR YOUR ORDER");
         checkoutCompletePage.clickOnTheBackHomeButton();
