@@ -30,11 +30,12 @@ public class LoginPage extends BasePage {
         // MOVE TO PRODUCTS PAGE
     }
 
-    @Step ("Getting error message")
+    @Step ("Getting the error message")
     public String getError () {
         return driver.findElement(ERROR_MESSAGE).getText();
     }
 
+    @Step("Checking if the LOGIN button is displayed")
     public boolean loginButtonIsDisplayed() {
         return driver.findElement(LOGIN_BUTTON).isDisplayed();
     }

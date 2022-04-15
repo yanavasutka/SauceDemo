@@ -39,6 +39,8 @@ public class BaseTest {
             driver = new FirefoxDriver();
         }
 
+        testContext.setAttribute("driver", driver);
+
         driver.manage().window().maximize();
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
 
@@ -50,8 +52,6 @@ public class BaseTest {
         checkoutOverviewPage = new CheckoutOverviewPage(driver);
         checkoutCompletePage = new CheckoutCompletePage(driver);
         menuPage = new MenuPage(driver);
-
-        testContext.setAttribute("driver", driver);
     }
 
     @AfterMethod(alwaysRun = true, description = "Closing the browser")

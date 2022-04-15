@@ -1,5 +1,6 @@
 package pages;
 
+import io.qameta.allure.Step;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -19,6 +20,7 @@ public class ProductPage extends BasePage {
         super (driver);
     }
 
+    @Step("Opening ProductPage")
     public void open (int itemIndex ) {
         driver.get (baseUrl + inventoryItemLink + itemIndex);
         wait.until(ExpectedConditions.visibilityOfElementLocated(PRODUCT_NAME));
