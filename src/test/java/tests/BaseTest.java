@@ -4,14 +4,12 @@ import io.github.bonigarcia.wdm.WebDriverManager;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
-import org.openqa.selenium.edge.EdgeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
-import org.openqa.selenium.firefox.FirefoxOptions;
+import org.testng.ITestContext;
 import org.testng.annotations.*;
 import pages.*;
 
-import java.net.MalformedURLException;
-import java.util.concurrent.TimeUnit;
+import java.time.Duration;
 
 @Listeners(TestListener.class)
 public class BaseTest {
@@ -30,7 +28,7 @@ public class BaseTest {
 
     @Parameters({"browser"})
     @BeforeMethod(description = "Opening the browser")
-    public void setup(@Optional("chrome") String browser) throws MalformedURLException {
+    public void setup(@Optional("chrome") String browser, ITestContext testContext) {
         if (browser.equalsIgnoreCase("chrome")) {
             WebDriverManager.chromedriver().setup();
             ChromeOptions options = new ChromeOptions();
@@ -38,13 +36,11 @@ public class BaseTest {
             driver = new ChromeDriver(options);
         } else if (browser.equalsIgnoreCase("firefox")) {
             WebDriverManager.firefoxdriver().setup();
-            FirefoxOptions options = new FirefoxOptions();
-            options.addArguments("--headless");
-            driver = new FirefoxDriver(options);
+            driver = new FirefoxDriver();
         }
 
         driver.manage().window().maximize();
-        driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
 
         loginPage = new LoginPage(driver);
         productsPage = new ProductsPage(driver);
@@ -54,6 +50,8 @@ public class BaseTest {
         checkoutOverviewPage = new CheckoutOverviewPage(driver);
         checkoutCompletePage = new CheckoutCompletePage(driver);
         menuPage = new MenuPage(driver);
+
+        testContext.setAttribute("driver", driver);
     }
 
     @AfterMethod(alwaysRun = true, description = "Closing the browser")
